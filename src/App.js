@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, useCallback} from "react";
 import CreateUser from "./CreateUser";
-import InputSample from "./InputSample";
+// import InputSample from "./InputSample";
 import UserList from "./UserList";
 
 function countActiveUsers(users) {
@@ -9,6 +9,7 @@ function countActiveUsers(users) {
 }
 
 function App() {
+  console.log("app 실행");
   /* parameter */
 
   const [inputs, setInputs] = useState({
@@ -17,15 +18,6 @@ function App() {
   });
 
   const { username, email } = inputs;
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
 
   /* data */
 
@@ -60,7 +52,17 @@ function App() {
 
   /* event */
 
+  const onChange = useCallback( (e) => {
+    const { name, value } = e.target;
+
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  },[]);
+  
   const onCreate = useCallback(() => {
+    // console.log("onCreate 호출");
     const user = {
       id: nextId.current,
       username,
@@ -68,30 +70,36 @@ function App() {
     };
 
     // setUsers([...users, user]); // 불변성을 지켜야 한다고 한다.
-    setUsers(users.concat(user));
+    // setUsers(users.concat(user));
+    setUsers(users=> users.concat(user));
 
     setInputs({
       username: "",
       email: "",
-    },[username, email, users]);
+    });
 
-    console.log(nextId.current);
     nextId.current += 1;
-  }) 
+  },[username, email]) 
 
   const onRemove = useCallback( (id) => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인 것을 제거함
-    setUsers(users.filter((user) => user.id !== id));
-  },[users]);
+    // setUsers(users.filter((user) => user.id !== id));
+    // console.log("onRemove 호출");
+    // setUsers(users.filter(user=>user.id !== id));
+    setUsers(users => users.filter(user => user.id !== id));
+
+  },[]);
 
   const onToggle = useCallback( (id) => {
+    // console.log("onToggle 호출");
     setUsers(
-      users.map((user) =>
+      users =>
+      users.map(user =>
         user.id === id ? { ...user, active: !user.active } : user
       )
     );
-  },[users]);
+  },[]);
 
   const count = useMemo(() => countActiveUsers(users), [users]);
 

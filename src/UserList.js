@@ -1,30 +1,24 @@
 import React, { useEffect } from "react";
 
-function User({ user, onRemove, onToggle }) {
-  useEffect(() => {
-    // console.log("user 값이 설정됨");
-    // console.log(user.active);
-    return () => {
-      //   console.log("user 가 바뀌기 전..");
-      //   console.log(user.active);
-    };
-  }, [user.active]);
+const User = React.memo(function User({ user, onRemove, onToggle }) {
   return (
     <div>
       <b
         style={{
-          cursor: "pointer",
-          color: user.active ? "green" : "black",
+          cursor: 'pointer',
+          color: user.active ? 'green' : 'black'
         }}
         onClick={() => onToggle(user.id)}
       >
         {user.username}
-      </b>{" "}
+      </b>
+      &nbsp;
       <span>({user.email})</span>
-      <button onClick={() => onRemove(user.id)}>remove</button>
+      <button onClick={() => onRemove(user.id)}>삭제</button>
     </div>
   );
-}
+});
+
 
 function UserList({ users, onRemove, onToggle }) {
   return (
@@ -36,4 +30,4 @@ function UserList({ users, onRemove, onToggle }) {
   );
 }
 
-export default UserList;
+export default React.memo(UserList);
