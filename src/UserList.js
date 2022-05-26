@@ -21,6 +21,7 @@ const User = React.memo(function User({ user, onRemove, onToggle }) {
 
 
 function UserList({ users, onRemove, onToggle }) {
+  console.log("user list");
   return (
     <div>
       {users.map((user, index) => (
