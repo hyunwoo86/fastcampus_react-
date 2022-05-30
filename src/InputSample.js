@@ -41,6 +41,7 @@ function InputSample() {
         onChange={onChange}
         value={nickname}
       />
+      
       <button onClick={onReset}>초기화</button>
 
       <div>

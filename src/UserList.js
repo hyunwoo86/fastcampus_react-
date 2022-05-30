@@ -25,7 +25,7 @@ const User = React.memo(function User({ user }) {
 
       <button onClick = {()=>{
           dispatch({type: 'REMOVE_USER', id: user.id})
-        }}></button>
+        }}>삭제</button>
     </div>
   );
 });
